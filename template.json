@@ -1,0 +1,139 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "connections_office365_name": {
+            "defaultValue": "office365",
+            "type": "String"
+        },
+        "workflows_send_email_example_name": {
+            "defaultValue": "send-email-example",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/7fae2678-829b-4c99-bfa8-626c09eb2199/resourceGroups/examples/providers/Microsoft.Logic/workflows/send-email-example'.",
+            "type": "Microsoft.Logic/workflows",
+            "name": "[parameters('workflows_send_email_example_name')]",
+            "apiVersion": "2017-07-01",
+            "location": "southeastasia",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "schema": {
+                                    "properties": {
+                                        "body": {
+                                            "type": "string"
+                                        },
+                                        "sub": {
+                                            "type": "string"
+                                        },
+                                        "to": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "Response": {
+                            "runAfter": {
+                                "Send_an_email": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "body": {
+                                    "code": "SUCCESS_01",
+                                    "msg": "Email sent successfully"
+                                },
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "statusCode": 200
+                            }
+                        },
+                        "Send_an_email": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "body": {
+                                    "Body": "@triggerBody()?['body']",
+                                    "Subject": "@triggerBody()?['sub']",
+                                    "To": "@triggerBody()?['to']"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['office365']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/Mail"
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "office365": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_office365_name'))]",
+                                "connectionName": "office365",
+                                "id": "/subscriptions/7fae2678-829b-4c99-bfa8-626c09eb2199/providers/Microsoft.Web/locations/southeastasia/managedApis/office365"
+                            }
+                        }
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/connections', parameters('connections_office365_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/7fae2678-829b-4c99-bfa8-626c09eb2199/resourceGroups/examples/providers/Microsoft.Web/connections/office365'.",
+            "type": "Microsoft.Web/connections",
+            "name": "[parameters('connections_office365_name')]",
+            "apiVersion": "2016-06-01",
+            "location": "southeastasia",
+            "scale": null,
+            "properties": {
+                "displayName": "sanjeev_mishra@yomabank.net",
+                "customParameterValues": {},
+                "api": {
+                    "id": "[concat('/subscriptions/7fae2678-829b-4c99-bfa8-626c09eb2199/providers/Microsoft.Web/locations/southeastasia/managedApis/', parameters('connections_office365_name'))]"
+                }
+            },
+            "dependsOn": []
+        }
+    ]
+}
