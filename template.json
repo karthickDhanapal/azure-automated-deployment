@@ -14,7 +14,7 @@
     "variables": {},
     "resources": [
         {
-            "comments": "Generalized from resource: '/subscriptions/7fae2678-829b-4c99-bfa8-626c09eb2199/resourceGroups/examples/providers/Microsoft.Logic/workflows/send-email-example'.",
+            "comments": "Generalized from resource: '/subscriptions/your-subscription-id/resourceGroups/examples/providers/Microsoft.Logic/workflows/send-email-example'.",
             "type": "Microsoft.Logic/workflows",
             "name": "[parameters('workflows_send_email_example_name')]",
             "apiVersion": "2017-07-01",
@@ -109,7 +109,7 @@
                             "office365": {
                                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_office365_name'))]",
                                 "connectionName": "office365",
-                                "id": "/subscriptions/7fae2678-829b-4c99-bfa8-626c09eb2199/providers/Microsoft.Web/locations/southeastasia/managedApis/office365"
+                                "id": "/subscriptions/your-subscription-id/providers/Microsoft.Web/locations/southeastasia/managedApis/office365"
                             }
                         }
                     }
@@ -120,7 +120,7 @@
             ]
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/7fae2678-829b-4c99-bfa8-626c09eb2199/resourceGroups/examples/providers/Microsoft.Web/connections/office365'.",
+            "comments": "Generalized from resource: '/subscriptions/your-subscription-id/resourceGroups/examples/providers/Microsoft.Web/connections/office365'.",
             "type": "Microsoft.Web/connections",
             "name": "[parameters('connections_office365_name')]",
             "apiVersion": "2016-06-01",
@@ -130,7 +130,7 @@
                 "displayName": "sanjeev_mishra@yomabank.net",
                 "customParameterValues": {},
                 "api": {
-                    "id": "[concat('/subscriptions/7fae2678-829b-4c99-bfa8-626c09eb2199/providers/Microsoft.Web/locations/southeastasia/managedApis/', parameters('connections_office365_name'))]"
+                    "id": "[concat('/subscriptions/your-subscription-id/providers/Microsoft.Web/locations/southeastasia/managedApis/', parameters('connections_office365_name'))]"
                 }
             },
             "dependsOn": []
